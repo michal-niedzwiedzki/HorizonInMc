@@ -16,6 +16,8 @@ repositories {
 	// Loom adds the essential maven repositories to download Minecraft and libraries from automatically.
 	// See https://docs.gradle.org/current/userguide/declaring_repositories.html
 	// for more information about repositories.
+	mavenCentral()
+
 }
 
 dependencies {
@@ -30,6 +32,7 @@ dependencies {
 	testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
 
 	implementation 'org.yaml:snakeyaml:2.0'
+	testImplementation "org.mockito:mockito-core:3.+"
 }
 
 processResources {

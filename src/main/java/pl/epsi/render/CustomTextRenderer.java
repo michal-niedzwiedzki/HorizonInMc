@@ -84,16 +84,22 @@ public class CustomTextRenderer {
 
         Yaml yaml = new Yaml(new Constructor(FontProps.class, new LoaderOptions()));
         Optional<ModContainer> maybeContainer = FabricLoader.getInstance().getModContainer(modId);
-        if (maybeContainer.isEmpty()) return null;
+        if (maybeContainer.isEmpty()) {
+            System.err.printf("Invalid mod id '%s'", modId);
+            return null;
+        }
 
         Optional<Path> maybePath = maybeContainer.get().findPath("assets/" + modId + "/" + name + ".yml");
-        if (maybePath.isEmpty()) return null;
+        if (maybePath.isEmpty()) {
+            System.err.printf("Missing font file '%s'", "assets/" + modId + "/" + name + ".yml");
+            return null;
+        }
 
         try {
             FontProps props = yaml.load(new FileInputStream(maybePath.get().toFile()));
             return renderers.put(font, new CustomTextRenderer(font, props));
         } catch (Exception e) {
-            e.printStackTrace();
+            System.err.printf("Could not parse YAML font mapping '%s'", maybePath.get());
             return null;
         }
     }

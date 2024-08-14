@@ -1,8 +1,11 @@
 package pl.epsi.render;
 
+import net.minecraft.client.gui.DrawContext;
+import net.minecraft.util.Identifier;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
 import static pl.epsi.render.CustomTextRenderer.Cursor;
 
 class CustomTextRendererTest {
@@ -57,4 +60,12 @@ class CustomTextRendererTest {
         assertTrue(next.inside);
     }
 
+    @Test
+    void submit_regular_character() {
+        Identifier font = new Identifier("horizoninmc", "font/tpr_chunky_16.png");
+        CustomTextRenderer renderer = CustomTextRenderer.of("horizoninmc", "font/tpr_chunky_16");
+        DrawContext context = mock(DrawContext.class);
+        renderer.submit(context, 'a', new Cursor(0, 0, true), 0, 0, 100, 100);
+        verify(context).drawTexture(font, 0, 0, 8, 16, 0, 0, 8, 16, 232, 16);
+    }
 }
